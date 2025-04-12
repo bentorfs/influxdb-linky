@@ -14,22 +14,18 @@ describe('getUserConfig', () => {
   it('Parses basic config correctly', () => {
     vi.mocked(readFileSync).mockReturnValue(`{
       "meters": [
-        { "prm": "123", "token": "ccc", "name": "Conso", "action": "sync" },
-        { "prm": "123", "token": "ppp", "name": "Prod", "action": "reset", "production": true }
-      ],
-      "costs": [{ "price": 0.1, "start_date": "2024-07-01", "prm": "123" }]
+        { "prm": "123", "token": "ccc" },
+        { "prm": "123", "token": "ppp", "production": true }
+      ]
     }`);
     expect(getUserConfig()).toEqual({
       meters: [
         {
-          action: 'sync',
-          name: 'Conso',
           prm: '123',
           production: false,
           token: 'ccc',
-          costs: [{ price: 0.1, start_date: '2024-07-01' }],
         },
-        { action: 'reset', name: 'Prod', prm: '123', production: true, token: 'ppp' },
+        { prm: '123', production: true, token: 'ppp' },
       ],
     });
   });
@@ -37,9 +33,9 @@ describe('getUserConfig', () => {
   it('Throws if a PRM is configured multiple times', () => {
     vi.mocked(readFileSync).mockReturnValue(`{
       "meters": [
-        { "prm": "123", "token": "ccc", "name": "Conso", "action": "sync" },
-        { "prm": "123", "token": "ppp", "name": "Prod", "action": "reset", "production": true },
-        { "prm": "123", "token": "ddd", "name": "Clone", "action": "sync", "production": false }
+        { "prm": "123", "token": "ccc" },
+        { "prm": "123", "token": "ppp", "production": true },
+        { "prm": "123", "token": "ddd", "production": false }
       ]
     }`);
 

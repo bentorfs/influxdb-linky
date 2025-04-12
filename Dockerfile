@@ -1,8 +1,7 @@
-ARG BUILD_FROM
-FROM $BUILD_FROM
+FROM alpine:latest
 
-LABEL org.opencontainers.image.source=https://github.com/bokub/ha-linky
-LABEL org.opencontainers.image.description="HA Linky Add-on"
+LABEL org.opencontainers.image.source=https://github.com/bentorfs/influxdb-linky
+LABEL org.opencontainers.image.description="InfluxDB Linky"
 LABEL org.opencontainers.image.licenses=MIT
 
 RUN apk add --no-cache nodejs npm
@@ -16,10 +15,9 @@ RUN npm ci --ignore-scripts
 
 # Copy add-on code
 COPY . .
-RUN chmod a+x ./run.sh
 
 # Transpile TypeScript
 RUN npm run build
 
-CMD [ "./run.sh" ]
+CMD [ "node", "--experimental-modules", "dist/index.js" ]
 

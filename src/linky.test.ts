@@ -22,7 +22,7 @@ describe('LinkyClient', () => {
   });
 
   it('Has the right user agent', () => {
-    expect((client as any).session.userAgent).toBe('ha-linky/' + version);
+    expect((client as any).session.userAgent).toBe('influxdb-linky/' + version);
   });
 
   it('Fetches 1 year of historical data if first parameter is null', async () => {
