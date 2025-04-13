@@ -30,7 +30,7 @@ async function main() {
     const influxDBMeasurement = config.production ? 'linky_production' : 'linky_consumption';
 
     const result = await influxDBClient.getLastPointSent(config.prm, influxDBMeasurement);
-    const isSyncingNeeded = !result || (dayjs(result).isBefore(dayjs().subtract(2, 'days')) && dayjs().hour() >= 6);
+    const isSyncingNeeded = !result || (dayjs(result).isBefore(dayjs().subtract(1, 'days')) && dayjs().hour() >= 6);
     if (!isSyncingNeeded) {
       info('Everything is up-to-date, nothing to synchronize');
       return;
